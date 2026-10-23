@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
+using Features.Gaming.Library;
 using Microsoft.Win32;
+using ResetExplode;
 
-namespace ResetExplode;
+namespace Features.Gaming.Launcher;
 
 /// <summary>
 /// Aplica o perfil de um jogo e o inicia. Tudo é reversível: o plano de energia volta ao anterior, os programas auxiliares fecham e

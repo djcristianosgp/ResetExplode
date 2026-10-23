@@ -4,6 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Infrastructure.Integrations.Corsair;
+using Infrastructure.Integrations.Lighting;
 using LibreHardwareMonitor.Hardware;
 
 namespace ResetExplode;

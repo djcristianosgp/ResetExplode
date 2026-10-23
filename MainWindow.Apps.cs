@@ -1,3 +1,4 @@
+using Features.AppInstallation;
 using System.Diagnostics;
 using System.Windows;
 

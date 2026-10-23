@@ -2,9 +2,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Xml.Linq;
+using Features.Maker.Usb;
 using Microsoft.Win32;
+using ResetExplode;
 
-namespace ResetExplode;
+namespace Features.Maker.Drivers;
 
 /// <summary>Família de chip USB-serial: como reconhecer o dispositivo e o pacote de driver, e onde baixar o oficial.</summary>
 /// <summary>Bundle = pasta em Drivers com o driver oficial embutido no .exe (null = não incluído).</summary>

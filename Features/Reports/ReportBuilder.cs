@@ -1,8 +1,9 @@
-﻿using System.Net;
+﻿using ResetExplode;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 
-namespace ResetExplode;
+namespace Features.Reports;
 
 public sealed record ReportNode(string Name, string? Value, List<ReportNode>? Children);
 public sealed record ReportSensor(string Hardware, string Category, string Name, string Value, string Min, string Max);

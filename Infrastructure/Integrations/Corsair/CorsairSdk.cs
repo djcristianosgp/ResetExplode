@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace ResetExplode;
+namespace Infrastructure.Integrations.Corsair;
 
 /// <summary>Dispositivo Corsair exposto pelo iCUE (inclui iCUE LINK: hub, ventoinhas, bombas, tiras...).</summary>
 public sealed class CorsairDevice

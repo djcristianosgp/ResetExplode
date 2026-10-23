@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Win32;
 using Microsoft.Win32.SafeHandles;
 
-namespace ResetExplode;
+namespace Features.Maker.Usb;
 
 /// <summary>Dispositivo USB/serial registrado no Windows (conectado ou "fantasma").</summary>
 public sealed class UsbDevice : INotifyPropertyChanged

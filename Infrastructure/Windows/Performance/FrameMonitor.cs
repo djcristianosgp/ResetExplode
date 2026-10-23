@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Diagnostics.Tracing;
 using Microsoft.Diagnostics.Tracing.Session;
 
-namespace ResetExplode;
+namespace Infrastructure.Windows.Performance;
 
 public sealed record FrameStats(int ProcessId, string ProcessName, double Fps, double FrameTimeMs, double Low1Fps,
                                 IReadOnlyList<double> RecentFrameTimes);

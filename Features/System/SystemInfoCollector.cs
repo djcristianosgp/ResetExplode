@@ -1,6 +1,7 @@
+using ResetExplode;
 using System.Management;
 
-namespace ResetExplode;
+namespace Features.System;
 
 /// <summary>Coleta informações estáticas do sistema via WMI.</summary>
 public static class SystemInfoCollector

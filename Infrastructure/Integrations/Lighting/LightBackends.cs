@@ -1,10 +1,11 @@
-﻿using System.IO;
+﻿using Infrastructure.Integrations.Corsair;
+using System.IO;
 using System.Net.Http;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 
-namespace ResetExplode;
+namespace Infrastructure.Integrations.Lighting;
 
 /// <summary>Uma "ponte" para um fabricante/serviço de iluminação (Corsair iCUE, OpenRGB, Razer Chroma...).</summary>
 public interface ILightBackend

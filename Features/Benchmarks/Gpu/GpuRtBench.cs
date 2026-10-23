@@ -6,7 +6,7 @@ using Vortice.Direct3D12;
 using Vortice.Dxc;
 using Vortice.DXGI;
 
-namespace ResetExplode;
+namespace Features.Benchmarks.Gpu;
 
 /// <summary>Uma passada medida do teste de ray tracing.</summary>
 public sealed record RtPass(double AvgFps, double Low1Fps, int Frames);

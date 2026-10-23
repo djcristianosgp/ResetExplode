@@ -1,3 +1,4 @@
+using Features.Benchmarks.Gpu;
 using System.Windows;
 using System.Windows.Threading;
 

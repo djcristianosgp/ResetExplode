@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using LibreHardwareMonitor.Hardware;
 
-namespace ResetExplode;
+namespace Features.Sensors.Models;
 
 /// <summary>Linha do painel de sensores, com notificação de mudança para a UI.</summary>
 public class SensorRow : INotifyPropertyChanged

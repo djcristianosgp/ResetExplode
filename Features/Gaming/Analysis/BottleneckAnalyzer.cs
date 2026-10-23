@@ -1,6 +1,10 @@
+using Features.Hardware.Gpu;
+using Features.Sensors;
+using Infrastructure.Hardware.Nvidia;
+using Infrastructure.Windows.Performance;
 using LibreHardwareMonitor.Hardware;
 
-namespace ResetExplode;
+namespace Features.Gaming.Analysis;
 
 public enum Limiter { Gpu, Cpu, Vram, Ram, Thermal, Capped }
 

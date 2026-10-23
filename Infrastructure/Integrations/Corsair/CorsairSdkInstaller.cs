@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
-namespace ResetExplode;
+namespace Infrastructure.Integrations.Corsair;
 
 /// <summary>
 /// Baixa o SDK oficial da Corsair (github.com/CorsairOfficial/cue-sdk, última release) e extrai SOMENTE o iCUESDK.x64_2019.dll

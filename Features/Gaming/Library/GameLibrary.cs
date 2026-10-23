@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
+using Infrastructure.Integrations.Steam;
 using Microsoft.Win32;
+using ResetExplode;
 
-namespace ResetExplode;
+namespace Features.Gaming.Library;
 
 /// <summary>Jogo instalado (de qualquer loja) ou adicionado à mão.</summary>
 public sealed class LibGame

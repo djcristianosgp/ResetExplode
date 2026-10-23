@@ -1,5 +1,11 @@
 using System.Windows;
 using System.Windows.Controls;
+using Features.Gaming.Analysis;
+using Features.Gaming.Overlay.Models;
+using Features.Optimization;
+using Features.Sensors.Models;
+using Infrastructure.Hardware.Nvidia;
+using Infrastructure.Windows.Performance;
 using LibreHardwareMonitor.Hardware;
 
 namespace ResetExplode;

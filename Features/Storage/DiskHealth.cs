@@ -1,8 +1,9 @@
 ﻿using System.Management;
 using System.Text.RegularExpressions;
+using Features.Sensors.Models;
 using LibreHardwareMonitor.Hardware;
 
-namespace ResetExplode;
+namespace Features.Storage;
 
 public enum DiskVerdict { Good, Warning, Critical, Unknown }
 

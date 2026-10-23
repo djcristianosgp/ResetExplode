@@ -1,10 +1,11 @@
-﻿using System.Diagnostics;
+﻿using Features.Storage;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 
-namespace ResetExplode;
+namespace Features.Network;
 
 /// <summary>
 /// Diagnóstico de rede para lag: latência, jitter e perda de pacotes até o roteador e até a internet,

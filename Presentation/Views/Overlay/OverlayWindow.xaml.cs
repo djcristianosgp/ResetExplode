@@ -1,10 +1,12 @@
+using Features.Gaming.Overlay.Models;
+using Infrastructure.Windows.Performance;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace ResetExplode;
+namespace Presentation.Views.Overlay;
 
 /// <summary>
 /// OSD sobre o jogo (estilo RTSS/Afterburner): janela transparente, sempre no topo, que ignora cliques

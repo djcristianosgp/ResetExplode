@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using Features.Gaming.Launcher;
+using Features.Gaming.Library;
 using Microsoft.Win32;
 
 namespace ResetExplode;

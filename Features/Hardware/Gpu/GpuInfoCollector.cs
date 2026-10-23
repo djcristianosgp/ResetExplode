@@ -1,9 +1,12 @@
 using System.IO;
 using System.Management;
 using System.Text.RegularExpressions;
+using Infrastructure.Graphics.DirectX;
+using Infrastructure.Hardware.Nvidia;
 using Microsoft.Win32;
+using ResetExplode;
 
-namespace ResetExplode;
+namespace Features.Hardware.Gpu;
 
 /// <summary>Uma placa de vídeo com os dados no estilo da aba "Graphics Card" do GPU-Z.</summary>
 public sealed class GpuInfo

@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-namespace ResetExplode;
+namespace Infrastructure.Windows.Drivers;
 
 /// <summary>Uma linha do inventário de drivers instalados.</summary>
 public sealed class DriverRow
