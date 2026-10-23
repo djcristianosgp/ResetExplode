@@ -1,53 +1,123 @@
 name: Publicar
 
-# A cada push na main, gera o ResetExplode.exe e atualiza a release "latest" (sempre a versão mais nova).
-# Ao criar uma tag (ex.: v0.12), gera também uma release fixa dessa versão.
 on:
   push:
-    branches: [main]
-    tags: ['v*']
+    tags:
+      - 'v*'
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Versão para publicar (ex.: v1.2.3). Usado somente na execução manual.'
+        required: false
+        type: string
 
 permissions:
   contents: write
 
 concurrency:
-  group: publicar
+  group: publicar-release-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   build:
+    name: Compilar e publicar release
     runs-on: windows-latest
+
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-dotnet@v4
+      - name: Baixar código
+        uses: actions/checkout@v4
         with:
-          dotnet-version: '8.0.x'
+          fetch-depth: 0
 
-      - name: Publicar (arquivo único, com o .NET embutido)
-        run: dotnet publish ResetExplode.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=None -o dist -nologo
+      - name: Preparar .NET 10 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
 
-      - name: Montar pacote
-        shell: pwsh
-        run: |
-          Copy-Item LEIA-ME.txt dist/LEIA-ME.txt
-          Compress-Archive -Path dist/ResetExplode.exe, dist/LEIA-ME.txt -DestinationPath ResetExplode.zip
-
-      - name: Atualizar release "latest"
-        if: startsWith(github.ref, 'refs/heads/')
+      - name: Definir versão
+        id: version
         shell: pwsh
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_VERSION: ${{ inputs.version }}
+          REF_NAME: ${{ github.ref_name }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
-          $sha = "$env:GITHUB_SHA".Substring(0, 7)
-          gh release delete latest --cleanup-tag --yes
-          gh release create latest ResetExplode.zip dist/ResetExplode.exe --target $env:GITHUB_SHA --latest --title "RESET EXPLODE (versão mais recente)" --notes-file NOVIDADES.md
+          if ($env:EVENT_NAME -eq 'workflow_dispatch' -and -not [string]::IsNullOrWhiteSpace($env:INPUT_VERSION)) {
+            $version = $env:INPUT_VERSION.Trim()
+          } else {
+            $version = $env:REF_NAME
+          }
 
-      - name: Release da versão (tag)
-        if: startsWith(github.ref, 'refs/tags/')
+          if ($version -notmatch '^v?\d+\.\d+\.\d+([-.][0-9A-Za-z.-]+)?$') {
+            throw "Versão inválida: '$version'. Use, por exemplo, v1.2.3."
+          }
+
+          if (-not $version.StartsWith('v')) { $version = "v$version" }
+          "tag=$version" >> $env:GITHUB_OUTPUT
+          "version=$($version.TrimStart('v'))" >> $env:GITHUB_OUTPUT
+
+      - name: Restaurar dependências
+        run: dotnet restore ResetExplode.csproj
+
+      - name: Compilar e publicar (Windows x64, arquivo único e autocontido)
         shell: pwsh
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          APP_VERSION: ${{ steps.version.outputs.version }}
         run: |
-          gh release create $env:GITHUB_REF_NAME ResetExplode.zip dist/ResetExplode.exe --title "RESET EXPLODE $env:GITHUB_REF_NAME" --generate-notes --latest=false
+          dotnet publish ResetExplode.csproj `
+            --configuration Release `
+            --framework net10.0-windows7.0 `
+            --runtime win-x64 `
+            --self-contained true `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            -p:DebugType=None `
+            -p:Version=$env:APP_VERSION `
+            --output dist `
+            --nologo
+
+          if ($LASTEXITCODE -ne 0) { throw "dotnet publish falhou com código $LASTEXITCODE." }
+          if (-not (Test-Path 'dist/ResetExplode.exe')) { throw 'O executável dist/ResetExplode.exe não foi gerado.' }
+
+      - name: Montar pacote de distribuição
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          Copy-Item 'LEIA-ME.txt' 'dist/LEIA-ME.txt'
+          $zip = "ResetExplode-$env:RELEASE_TAG-win-x64.zip"
+          Compress-Archive -Path 'dist/ResetExplode.exe', 'dist/LEIA-ME.txt' -DestinationPath $zip -Force
+          $hash = (Get-FileHash 'dist/ResetExplode.exe' -Algorithm SHA256).Hash
+          "$hash  ResetExplode.exe" | Set-Content 'dist/SHA256SUMS.txt' -Encoding ascii
+          Copy-Item 'dist/SHA256SUMS.txt' 'SHA256SUMS.txt'
+          "PACKAGE_NAME=$zip" >> $env:GITHUB_ENV
+
+      - name: Publicar GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+          RELEASE_SHA: ${{ github.sha }}
+        shell: pwsh
+        run: |
+          $notesFile = 'NOVIDADES.md'
+          if (-not (Test-Path $notesFile)) {
+            '# RESET EXPLODE ' + $env:RELEASE_TAG + "`n`nPacote autocontido para Windows x64." | Set-Content $notesFile -Encoding utf8
+          }
+
+          gh release create "$env:RELEASE_TAG" "$env:PACKAGE_NAME" 'dist/ResetExplode.exe' 'SHA256SUMS.txt' `
+            --target "$env:RELEASE_SHA" `
+            --title "RESET EXPLODE $env:RELEASE_TAG" `
+            --notes-file "$notesFile" `
+            --verify-tag
+
+      - name: Resumo da publicação
+        if: success()
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          '## Release publicada' >> $env:GITHUB_STEP_SUMMARY
+          "- **Versão:** $env:RELEASE_TAG" >> $env:GITHUB_STEP_SUMMARY
+          "- **Pacote:** ResetExplode-$env:RELEASE_TAG-win-x64.zip" >> $env:GITHUB_STEP_SUMMARY
+          '- **Executável:** ResetExplode.exe (Windows x64, .NET 10 autocontido)' >> $env:GITHUB_STEP_SUMMARY
+          "- **Release:** https://github.com/$env:GITHUB_REPOSITORY/releases/tag/$env:RELEASE_TAG" >> $env:GITHUB_STEP_SUMMARY
