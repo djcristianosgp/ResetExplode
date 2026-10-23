@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using Infrastructure.Integrations.Corsair;
 
 namespace Infrastructure.Windows.Drivers;
 

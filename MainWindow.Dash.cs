@@ -2,6 +2,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Features.Gaming.Models;
+using Features.Maker.Usb;
+using Features.Optimization;
+using Features.Overclocking;
+using Features.Sensors;
+using Features.Storage;
+using Infrastructure.Hardware.Nvidia;
 using LibreHardwareMonitor.Hardware;
 
 namespace ResetExplode;

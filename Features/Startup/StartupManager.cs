@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.IO;
 using Microsoft.Win32;
+using ResetExplode;
 
 namespace Features.Startup;
 

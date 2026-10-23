@@ -1,4 +1,12 @@
-﻿using System.Diagnostics;
+﻿using Features.Benchmarks.Cpu;
+using Features.Benchmarks.Gaming;
+using Features.Diagnostics;
+using Features.Gaming.Models;
+using Features.Overclocking;
+using Features.StressTesting.Cpu;
+using Features.StressTesting.Gpu;
+using Infrastructure.Hardware.Nvidia;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;

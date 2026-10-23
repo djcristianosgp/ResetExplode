@@ -20,11 +20,12 @@ using Features.Sensors.Models;
 using Features.Storage;
 using Features.StressTesting.Cpu;
 using Features.StressTesting.Gpu;
-using Features.System;
+using Features.SystemApp;
 using Infrastructure.Hardware.Nvidia;
 using Infrastructure.Integrations.HowManyFps;
 using Infrastructure.Windows.Performance;
 using LibreHardwareMonitor.Hardware;
+using Presentation.Views.Overlay;
 
 namespace ResetExplode;
 

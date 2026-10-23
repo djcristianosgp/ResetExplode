@@ -3,7 +3,7 @@ using Features.Sensors.Models;
 using Features.Storage;
 using LibreHardwareMonitor.Hardware;
 
-namespace Features.System;
+namespace Features.SystemApp;
 
 /// <summary>
 /// Bateria (desgaste, ciclos, carga) e energia (fonte, plano, consumo dos sensores). Lê o WMI do Windows; nada é alterado.

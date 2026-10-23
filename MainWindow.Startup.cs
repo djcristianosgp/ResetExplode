@@ -1,3 +1,4 @@
+using Features.Startup;
 using System.Windows;
 using System.Windows.Controls;
 
