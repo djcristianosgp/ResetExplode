@@ -87,7 +87,8 @@ jobs:
           gh release create "$env:RELEASE_TAG" "$env:PACKAGE_NAME" 'dist/ResetExplode.exe' 'SHA256SUMS.txt' `
             --target "$env:RELEASE_SHA" `
             --title "RESET EXPLODE $env:RELEASE_TAG" `
-            --notes-file NOVIDADES.md `
+            --generate-notes `
+            --latest=false `
             --verify-tag
 
       - name: Resumo da publicação
